@@ -52,9 +52,3 @@ jobs:
           # Push to the gh-pages branch
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/PD-BDS/MLOps.git HEAD:gh-pages
           
-      # Step 7: Commit updated index.html to gh-pages branch
-      - name: Commit updated index.html to gh-pages
-        run: |
-          git add index.html  # Stage the file (no need to copy)
-          git commit -m "Update prediction" || echo "No changes to commit"
-          git push origin gh-pages  # Push to the gh-pages branch
