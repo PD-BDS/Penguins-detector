@@ -35,17 +35,17 @@ To identify the most relevant features, the following methods were used:
 
 ```
 
-echo "Feature              | Mutual Info | RFE | Random Forest | Permutation | Importance"
-echo "---------------------|-------------|-----|---------------|-------------|-------------"
-echo "bill_length_mm       | ✅           | ✅   | ✅             | ✅           | Important ✅"
-echo "bill_depth_mm        | ✅           | ✅   | ✅             | ❌           | Important ✅"
-echo "flipper_length_mm    | ✅           | ✅   | ✅             | ✅           | Important ✅"
-echo "body_mass_g          | ❌           | ❌   | ❌             | ❌           | Not Important ❌"
-echo "sex_Female           | ❌           | ❌   | ❌             | ❌           | Not Important ❌"
-echo "sex_Male             | ❌           | ❌   | ❌             | ❌           | Not Important ❌"
-echo "island_Biscoe        | ❌           | ❌   | ❌             | ❌           | Not Important ❌"
-echo "island_Dream         | ❌           | ✅   | ❌             | ✅           | Not Important ❌"
-echo "island_Torgersen     | ❌           | ❌   | ❌             | ❌           | Not Important ❌"
+Feature              | Mutual Info   | RFE  | Random Forest  | Permutation  | Importance
+---------------------|---------------|------|----------------|--------------|-------------
+bill_length_mm       | ✅           | ✅   | ✅             | ✅           | Important ✅
+bill_depth_mm        | ✅           | ✅   | ✅             | ❌           | Important ✅
+flipper_length_mm    | ✅           | ✅   | ✅             | ✅           | Important ✅
+body_mass_g          | ❌           | ❌   | ❌             | ❌           | Not Important ❌
+sex_Female           | ❌           | ❌   | ❌             | ❌           | Not Important ❌
+sex_Male             | ❌           | ❌   | ❌             | ❌           | Not Important ❌
+island_Biscoe        | ❌           | ❌   | ❌             | ❌           | Not Important ❌
+island_Dream         | ❌           | ✅   | ❌             | ✅           | Not Important ❌
+island_Torgersen     | ❌           | ❌   | ❌             | ❌           | Not Important ❌
 ```
 
 🚀 Final features used in the model:
