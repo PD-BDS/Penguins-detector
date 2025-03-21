@@ -31,18 +31,14 @@ jobs:
         run: |
           python prediction.py  # This will update the index.html file with new predictions
 
-      # Step 5: Checkout gh-pages branch
-      - name: Checkout gh-pages branch
+      # Step 5: Create and Checkout a fresh gh-pages branch
+      - name: Checkout fresh gh-pages branch
         run: |
-          git fetch origin gh-pages || git checkout --orphan gh-pages
-          git reset --hard  # Ensure you're on a clean state
+          # Create and switch to a new gh-pages branch
+          git checkout --orphan gh-pages
+          git rm -rf .  # Remove all files (except for those that will be updated)
 
-      # Step 6: Pull the latest changes from the remote gh-pages branch
-      - name: Pull the latest changes from gh-pages
-        run: |
-          git pull origin gh-pages --strategy=theirs --no-edit
-
-      # Step 7: Commit and push prediction
+      # Step 6: Commit and push prediction
       - name: Commit and push prediction
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,4 +52,4 @@ jobs:
           git commit -m "Update prediction" || echo "No changes to commit"
 
           # Push to the gh-pages branch using the Personal Access Token (PAT)
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/PD-BDS/MLOps.git HEAD:gh-pages
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/PD-BDS/MLOps.git HEAD:gh-pages --force
