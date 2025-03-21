@@ -3,7 +3,7 @@ name: Daily Prediction Workflow
 on:
   schedule:
     - cron: "30 7 * * *"  # This means 7:30 AM UTC every day
-  workflow_dispatch: # You can also manually trigger the workflow
+  workflow_dispatch:  # You can also manually trigger the workflow
 
 jobs:
   daily_prediction:
@@ -27,11 +27,18 @@ jobs:
         run: |
           python prediction.py
 
-      - name: Commit Prediction Results to GitHub Pages
+      - name: Set up Git configuration
         run: |
           git config --global user.email "dey.piyal97@gmail.com"
           git config --global user.name "Piyal Dey"
-          git add index.html
-          git commit -m "Update prediction"
-          git push origin gh-pages
 
+      - name: Check if 'gh-pages' branch exists and create it if necessary
+        run: |
+          git fetch origin gh-pages || git checkout --orphan gh-pages
+          git reset --hard
+
+      - name: Commit Prediction Results to GitHub Pages
+        run: |
+          git add index.html
+          git commit -m "Update prediction" || echo "No changes to commit"
+          git push origin gh-pages
