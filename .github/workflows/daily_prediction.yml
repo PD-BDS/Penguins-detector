@@ -37,9 +37,14 @@ jobs:
           git fetch origin gh-pages || git checkout --orphan gh-pages
           git reset --hard  # Ensure you're on a clean state
 
-      - name: Commit and push prediction
+      # Step 6: Pull the latest changes from the remote gh-pages branch
+      - name: Pull the latest changes from gh-pages
+        run: |
+          git pull origin gh-pages --rebase
+
+      # Step 7: Commit and push prediction
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Configure git user
           git config --global user.name "GitHub Actions"
@@ -49,6 +54,5 @@ jobs:
           git add index.html
           git commit -m "Update prediction" || echo "No changes to commit"
 
-          # Push to the gh-pages branch
-          git push https://x-access-token:${{ secrets.REPO }}@github.com/PD-BDS/MLOps.git HEAD:gh-pages
-          
+          # Push to the gh-pages branch using the Personal Access Token (PAT)
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/PD-BDS/MLOps.git HEAD:gh-pages
