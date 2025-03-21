@@ -3,13 +3,18 @@
 This repository classifies penguin species based on bill length, bill depth and flipper length, and . It includes an automated pipeline that fetches new penguin data daily from an API and predicts its species.
 
 ## 🚀 Features
+- **Database Creation**: Stores the penguin dataset in an SQLite database with two tables: `penguins` and `islands`, where `island_id` is a foreign key.
+- **Data Extraction**: Retrieves and preprocesses data from the database for model training.
 - **Feature Selection**: Identifies the most relevant features using Mutual Information, RFE, Random Forest, and Permutation Importance.
-- **Model Training**: Uses **Random Forest Classifier** for species classification.
+- **Data Preprocessing**: Standardizes features using MinMaxScaler and balances data using SMOTE.
+- **Model Training**: Uses **Random Forest Classifier**, optimized with **GridSearchCV**.
+- **Model & Scaler Saving**: Saves the trained model and scaler for consistent predictions.
 - **Automated Data Retrieval**: Fetches new penguin data from an API every morning at 07:30 AM.
 - **GitHub Actions Integration**: Automates prediction updates.
 - **GitHub Pages Deployment**: Displays the latest prediction --> [Penguin Prediction](https://pd-bds.github.io/MLOps/)
 
 ---
+
 
 ## 📂 **Repository Structure**
 ```bash
@@ -28,6 +33,18 @@ Penguins-of-Madagascar/
 ```
 
 ---
+
+## 📊 **Database Creation & Data Extraction**
+The dataset is stored in an SQLite database named `penguins.db`.
+The `penguinsDB.py` script creates the database and inserts the dataset into two tables:
+
+- **penguins:** Contains penguin features and species information.
+
+- **island:** Stores island names with `island_id` as a primary key, which is referenced in `penguins`.
+
+### **Extracting Data**
+The data is extracted using SQL queries and converted into a Pandas DataFrame by joining island name using `island_id` for preprocessing and model training.
+
 
 ## 📊 **Feature Selection**
 
@@ -55,33 +72,65 @@ island_Torgersen     | ❌           | ❌   | ❌             | ❌           |
 
 ## 🏆 **Model Training**
 
-The model was trained using **Random Forest Classifer**, achieving an accuracy of 99%.
+The model was trained using **Random Forest Classifier**, optimized with **GridSearchCV** for hyperparameter tuning.
 
-**Model Performance**:
-- Test Accuracy: 99%
-- Cross-Validation Accuracy: 99% ± 0.00
+### **Data Preprocessing**
+- **Scaling**: Features are standardized using MinMaxScaler.
+- **Balancing**: The dataset is balanced using **SMOTE** to handle class imbalances.
 
-**The trained model is saved as**:
+### **Best Hyperparameters Found with GridSearchCV**
 ```
-models/penguin_classifier.pkl
+Best Parameters: {'class_weight': 'balanced', 'max_depth': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 100, 'random_state': 42}
 ```
+
+### **Classification Report**
+```
+              precision    recall  f1-score   support
+
+      Adelie       1.00      0.97      0.98        29
+   Chinstrap       0.93      1.00      0.97        14
+      Gentoo       1.00      1.00      1.00        24
+
+    accuracy                           0.99        67
+   macro avg       0.98      0.99      0.98        67
+weighted avg       0.99      0.99      0.99        67
+```
+
+### **Saving the Model and Scaler**
+The trained model and used scaler is saved as joblib to making future prediction.  
+```
+penguin_classifier.pkl
+scaler.pkl
+```
+
+---
+
 
 ---
 
 ## 🔄 **Automated Prediction Pipeline**
 
-🔹 **1️⃣ Fetch New Penguin Data**
+The prediction pipeline is automated using **GitHub Actions**, which runs daily at **07:30 AM UTC**. It fetches new penguin data from an API, predicts its species using the trained model, updates an HTML file with the latest prediction, and deploys the result on **GitHub Pages**.
 
-New penguins data are fetched by making API calls to http://130.225.39.127:8000/new_penguin/
+### **Workflow Setup (GitHub Actions)**
+The workflow is defined in `.github/workflows/daily_prediction.yml` and consists of the following steps:
 
-🔹 **2️⃣ Make Prediction**
+1. **Trigger**: The workflow runs automatically at **07:30 AM UTC** every day using a cron job and can also be triggered manually.
+2. **Checkout Repository**: The latest version of the repository is pulled.
+3. **Set Up Python**: Installs Python and dependencies.
+4. **Fetch New Data & Make Predictions**: Runs `prediction.py` to fetch new penguin data, preprocess it, and predict the species.
+5. **Deploy to GitHub Pages**: Updates `index.html` with the new prediction and pushes it to the `gh-pages` branch.
 
-prediction are made using the trained model and the prediction is shown as a html output for showing it as a github page.
 
-🔹 **3️⃣ Automating with GitHub Actions**
+### **Prediction Script (`prediction.py`)**
+The script fetches the latest penguin data from the API, preprocesses it using the saved `scaler.pkl`, predicts the species using the `penguin_classifer.pkl`, and updates `index.html` with the results.
 
-GitHub Actions runs every day at 07:30 AM and updates the github page (https://pd-bds.github.io/MLOps/)
 
+### **Deployment to GitHub Pages**
+Once `index.html` is updated, GitHub Actions commits the changes to the `gh-pages` branch, making the latest prediction accessible at:  
+🔗 **[Penguin Prediction](https://pd-bds.github.io/MLOps/)**
+
+---
 
 ## **🛠 Running the Project Locally**
 
