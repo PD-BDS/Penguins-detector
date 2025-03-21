@@ -40,8 +40,6 @@ jobs:
       # Step 6: Commit updated index.html to gh-pages branch
       - name: Commit updated index.html to gh-pages
         run: |
-          # Ensure you're in the correct directory
-          cp index.html ./index.html  # Copy the updated index.html to the working directory
-          git add ./index.html  # Stage the file
+          git add index.html  # Stage the file (no need to copy)
           git commit -m "Update prediction" || echo "No changes to commit"
           git push origin gh-pages  # Push to the gh-pages branch
