@@ -40,7 +40,7 @@ jobs:
       # Step 6: Pull the latest changes from the remote gh-pages branch
       - name: Pull the latest changes from gh-pages
         run: |
-          git pull origin gh-pages --rebase
+          git pull origin gh-pages --strategy=theirs --no-edit
 
       # Step 7: Commit and push prediction
       - name: Commit and push prediction
