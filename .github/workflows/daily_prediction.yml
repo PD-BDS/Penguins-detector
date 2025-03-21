@@ -43,6 +43,7 @@ jobs:
           git pull origin gh-pages --rebase
 
       # Step 7: Commit and push prediction
+      - name: Commit and push prediction
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
