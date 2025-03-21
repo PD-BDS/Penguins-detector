@@ -37,7 +37,13 @@ jobs:
           git fetch origin gh-pages || git checkout --orphan gh-pages
           git reset --hard  # Ensure you're on a clean state
 
-      # Step 6: Commit updated index.html to gh-pages branch
+      # Step 6: Configure git user details
+      - name: Configure git user
+        run: |
+          git config --global user.email "dey.piyal97@gmail.com"
+          git config --global user.name "Piyal Dey"
+          
+      # Step 7: Commit updated index.html to gh-pages branch
       - name: Commit updated index.html to gh-pages
         run: |
           git add index.html  # Stage the file (no need to copy)
