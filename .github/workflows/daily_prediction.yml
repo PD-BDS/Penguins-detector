@@ -31,16 +31,17 @@ jobs:
         run: |
           python prediction.py  # This will update the index.html file with new predictions
 
-      # Step 5: Checkout the gh-pages branch
+      # Step 5: Checkout gh-pages branch
       - name: Checkout gh-pages branch
         run: |
           git fetch origin gh-pages || git checkout --orphan gh-pages
           git reset --hard  # Ensure you're on a clean state
 
-      # Step 6: Copy the updated index.html to the gh-pages branch
-      - name: Copy updated index.html and commit to gh-pages
+      # Step 6: Commit updated index.html to gh-pages branch
+      - name: Commit updated index.html to gh-pages
         run: |
-          cp index.html /tmp/index.html  # Copy the new index.html (which has the updated prediction)
-          git add /tmp/index.html  # Add the modified file
+          # Ensure you're in the correct directory
+          cp index.html ./index.html  # Copy the updated index.html to the working directory
+          git add ./index.html  # Stage the file
           git commit -m "Update prediction" || echo "No changes to commit"
           git push origin gh-pages  # Push to the gh-pages branch
