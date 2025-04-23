@@ -2,7 +2,7 @@ name: Daily Prediction Workflow
 
 on:
   schedule:
-    - cron: "30 7 * * *"  # This means 7:30 AM UTC every day
+   # - cron: "30 7 * * *"  # This means 7:30 AM UTC every day
   workflow_dispatch: # You can also manually trigger the workflow
 
 jobs:
