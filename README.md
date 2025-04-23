@@ -2,6 +2,8 @@
 
 This repository classifies penguin species based on bill length, bill depth and flipper length, and . It includes an automated pipeline that fetches new penguin data daily from an API and predicts its species.
 
+N.B: This project was based on a temporary API for fetching daily penguin data, After running this project successfully, the API has been closed, so the output will not be available in the github pages. 
+
 ## 🚀 Features
 - **Database Creation**: Stores the penguin dataset in an SQLite database with two tables: `penguins` and `islands`, where `island_id` is a foreign key.
 - **Data Extraction**: Retrieves and preprocesses data from the database for model training.
